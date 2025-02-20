@@ -1,0 +1,40 @@
+﻿sneg test1 ()
+{
+	running is true
+	shopping_list is ""
+
+	slither (running same true)
+	{
+    		item is think ("add an item to the shopping list: ")
+    		strike (item same "")
+    		{ 
+        		running is false
+    		}
+    		shopping_list is shopping_list ~ ", " ~ item
+	}
+	hiss (shopping_list)
+}
+
+sneg test2 ()
+{
+	sneg counter (_max) 
+	{
+		coil (int i, i safe _max, i++)
+    		{
+		    hiss ("The Count is " ~ i)
+    		} 
+	}
+}
+
+sneg test3 ()
+{
+	slither (true)
+	{
+    		max is think ("Enter a Maximum number: ")
+    		if (max safe is 0)
+    		{
+        		serpent
+    		}
+    		hatch counter (max)
+	}
+}
