@@ -18,13 +18,41 @@ def cCalc(tokens):
                 nT = tokens[pos + 1]
                 tokens.pop(pos)
                 tokens.pop(pos)
-                tokens[pos - 1] = TToken(str(int(pT.value) - int(nT.value)), TTypes.INT, TTypes.SVAR)
+                tmp = int(pT.value) - int(nT.value)
+                if tmp.is_integer():
+                    tokens[pos - 1] = TToken(str(tmp), TTypes.INT, TTypes.SVAR)
+                else:
+                    tokens[pos - 1] = TToken(str(tmp), TTypes.FLOAT, TTypes.SVAR)
             if t.type == TTypes.PLUS:
                 pT = tokens[pos - 1]
                 nT = tokens[pos + 1]
                 tokens.pop(pos)
                 tokens.pop(pos)
-                tokens[pos - 1] = TToken(str(int(pT.value) + int(nT.value)), TTypes.INT, TTypes.SVAR)
+                tmp = int(pT.value) + int(nT.value)
+                if tmp.is_integer():
+                    tokens[pos - 1] = TToken(str(tmp), TTypes.INT, TTypes.SVAR)
+                else:
+                    tokens[pos - 1] = TToken(str(tmp), TTypes.FLOAT, TTypes.SVAR)
+            if t.type == TTypes.SLASH:
+                pT = tokens[pos - 1]
+                nT = tokens[pos + 1]
+                tokens.pop(pos)
+                tokens.pop(pos)
+                tmp = int(pT.value) / int(nT.value)
+                if tmp.is_integer():
+                    tokens[pos - 1] = TToken(str(tmp), TTypes.INT, TTypes.SVAR)
+                else:
+                    tokens[pos - 1] = TToken(str(tmp), TTypes.FLOAT, TTypes.SVAR)
+            if t.type == TTypes.STAR:
+                pT = tokens[pos - 1]
+                nT = tokens[pos + 1]
+                tokens.pop(pos)
+                tokens.pop(pos)
+                tmp = int(pT.value) * int(nT.value)
+                if tmp.is_integer():
+                    tokens[pos - 1] = TToken(str(tmp), TTypes.INT, TTypes.SVAR)
+                else:
+                    tokens[pos - 1] = TToken(str(tmp), TTypes.FLOAT, TTypes.SVAR)
     return tokens[0]
 
 
