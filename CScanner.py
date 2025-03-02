@@ -15,7 +15,7 @@ def cScan (line):
         elif char.isdigit():
             sT = pos
             eT = pos
-            while eT < len(line) and line[eT].isdigit():
+            while eT < len(line) and (line[eT].isdigit() or line[eT] == "."):
                 eT += 1
             tT = line[sT:eT]
             tokens.append(TToken(tT, TTypes.INT, TTypes.SVAR))
