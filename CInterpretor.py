@@ -29,11 +29,14 @@ def lCheck(tokens):
                 nT = tokens[pos + 1]
                 tokens.pop(pos)
                 tokens.pop(pos)
-                tmp = float(pT.value) + float(nT.value)
-                if tmp.is_integer():
-                    tokens[pos - 1] = TToken(str(tmp), TTypes.INT, TTypes.SVAR)
+                if pT.type == TTypes.STRING:
+                    tokens[pos - 1] = TToken(str(pT.value + nT.value), TTypes.STRING, TTypes.SVAR)
                 else:
-                    tokens[pos - 1] = TToken(str(tmp), TTypes.FLOAT, TTypes.SVAR)
+                    tmp = float(pT.value) + float(nT.value)
+                    if tmp.is_integer():
+                        tokens[pos - 1] = TToken(str(tmp), TTypes.INT, TTypes.SVAR)
+                    else:
+                        tokens[pos - 1] = TToken(str(tmp), TTypes.FLOAT, TTypes.SVAR)
             if t.type == TTypes.SLASH:
                 pT = tokens[pos - 1]
                 nT = tokens[pos + 1]
