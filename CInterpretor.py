@@ -145,10 +145,30 @@ def lCheck(tokens):
                         tokens[pos - 1] = TToken("no", TTypes.NO, TTypes.BLOGIC)
             if t.type == TTypes.AND:
                 # and operator
-                pass
+                pT = tokens[pos - 1]
+                nT = tokens[pos + 1]
+                tokens.pop(pos)
+                tokens.pop(pos)
+                try:
+                    if pT.type == TTypes.YES and nT.type == TTypes.YES:
+                        tokens[pos - 1] = TToken("yes", TTypes.YES, TTypes.BLOGIC)
+                    else:
+                        tokens[pos - 1] = TToken("no", TTypes.NO, TTypes.BLOGIC)
+                except:
+                    tokens[pos - 1] = TToken("no", TTypes.NO, TTypes.BLOGIC)
             if t.type == TTypes.HASH:
                 # or operator
-                pass
+                pT = tokens[pos - 1]
+                nT = tokens[pos + 1]
+                tokens.pop(pos)
+                tokens.pop(pos)
+                try:
+                    if pT.type == TTypes.YES or nT.type == TTypes.YES:
+                        tokens[pos - 1] = TToken("yes", TTypes.YES, TTypes.BLOGIC)
+                    else:
+                        tokens[pos - 1] = TToken("no", TTypes.NO, TTypes.BLOGIC)
+                except:
+                    tokens[pos - 1] = TToken("no", TTypes.NO, TTypes.BLOGIC)
     return tokens
 
 
