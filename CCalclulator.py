@@ -1,8 +1,7 @@
-from itertools import repeat
-
 from CScanner import cScan
 from CToken import TTypes
 from CToken import TToken
+
 
 def lCheck(tokens):
     pos = 0
@@ -57,23 +56,20 @@ def lCheck(tokens):
                     tokens[pos - 1] = TToken(str(tmp), TTypes.FLOAT, TTypes.SVAR)
     return tokens
 
-def cCalc(tokens):
 
+def cCalc(tokens):
     tokens = lCheck(tokens)
-    #pos = 0
-    #
-    #while pos < len(tokens):
-    #    t = tokens[pos]
-    #    if t.type == TTypes.LEFT_PAREN or t.type == TTypes.RIGHT_PAREN:
-    #        brace = []
-    #        bpos = pos + 1
-    #        while tokens[bpos].type != TTypes.LEFT_PAREN or tokens[bpos].type == TTypes.RIGHT_PAREN:
-    #            brace.append(tokens[bpos])
-    #            bpos += 1
-    #        brace = lCheck(brace)
-            
-            
-        
+    pos = 0
+
+    while pos < len(tokens):
+        t = tokens[pos]
+        if t.type == TTypes.LEFT_PAREN or t.type == TTypes.RIGHT_PAREN:
+            brace = []
+            bpos = pos + 1
+            while tokens[bpos].type != TTypes.LEFT_PAREN or tokens[bpos].type == TTypes.RIGHT_PAREN:
+                brace.append(tokens[bpos])
+                bpos += 1
+            brace = lCheck(brace)
     return tokens[0]
 
 

@@ -90,12 +90,18 @@ def cScan (line):
             elif tT == "safe":
                 tokens.append(TToken("safe", TTypes.SAFE, TTypes.BLOGIC))
                 pos = eT
+            elif tT == "yes":
+                tokens.append(TToken("yes", TTypes.YES, TTypes.BLOGIC))
+                pos = eT
+            elif tT == "no":
+                tokens.append(TToken("no", TTypes.NO, TTypes.BLOGIC))
+                pos = eT
             
             #Keywords
                 
             else:
-                tokens.append(TToken("", TTypes.UNK, TTypes.UNK))
-                pos += 1
+                tokens.append(TToken(tT, TTypes.STRING, TTypes.SVAR))
+                pos += eT
         #Catch
         else:
             pos += 1

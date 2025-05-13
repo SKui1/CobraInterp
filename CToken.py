@@ -39,17 +39,23 @@ class TTypes:
     #types
     INT = 30
     FLOAT = 31
+    STRING = 32
     
     #M types
-    LOGIC = 32
-    BLOGIC = 33
-    CONTROL = 34
-    KWORD = 35
-    SCASE = 36
-    SVAR = 37
+    LOGIC = 33
+    BLOGIC = 34
+    CONTROL = 35
+    KWORD = 36
+    SCASE = 37
+    SVAR = 38
+    
+    #Outcome
+    YES = 39
+    NO = 40
+    
     
     #Other
-    UNK = 38
+    UNK = 41
 
 @dataclass
 class TToken:
