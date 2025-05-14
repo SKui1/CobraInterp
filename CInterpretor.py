@@ -176,24 +176,33 @@ def lCheck(tokens):
 
 
 def cCalc(tokens):
-    tokens = lCheck(tokens)
     pos = 0
 
     while pos < len(tokens):
         t = tokens[pos]
-        if t.type == TTypes.LEFT_PAREN or t.type == TTypes.RIGHT_PAREN:
+        if t.type == TTypes.LEFT_PAREN:
             brace = []
+            bS = pos
             bpos = pos + 1
-            while tokens[bpos].type != TTypes.LEFT_PAREN or tokens[bpos].type == TTypes.RIGHT_PAREN:
+            while tokens[bpos].type != TTypes.LEFT_PAREN and tokens[bpos].type != TTypes.RIGHT_PAREN:
                 brace.append(tokens[bpos])
                 bpos += 1
             brace = lCheck(brace)
+            for i in range(0, bpos - bS):
+                tokens.pop(bS)
+            tokens[pos] = brace[0]
+            print(tokens)
+            break
         else:
             pos += 1
+
+    tokens = lCheck(tokens)
+    
     return tokens[0]
 
 
 while True:
     a = cScan(input(">: "))
     print(a)
+    print("~~~~")
     print(cCalc(a))

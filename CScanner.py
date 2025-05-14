@@ -7,7 +7,6 @@ def cScan (line):
     
     while pos < len(line):
         char = line[pos]
-        
         #basic single
         if char == ";":
             tokens.append(TToken(";", TTypes.SEMICOLON, TTypes.CONTROL))
@@ -62,14 +61,25 @@ def cScan (line):
             tokens.append(TToken("*", TTypes.STAR, TTypes.LOGIC))
             pos += 1
         
-        #Multi Char
         
+        #String
+        elif char == '"':
+            sT = pos + 1
+            eT = pos + 1
+            while eT < len(line) and line[eT] != '"':
+                eT += 1
+            tT = line[sT:eT]
+            tokens.append(TToken(tT, TTypes.STRING, TTypes.SVAR))
+            pos = eT + 1
+
+        #Multi Char
         elif char.isalpha():
             sT = pos
             eT = pos
             while eT < len(line) and line[eT].isalnum():
                 eT += 1
             tT = line[sT:eT]
+            
             
             #Logic
             if tT == "is":
@@ -98,9 +108,8 @@ def cScan (line):
                 pos = eT
             
             #Keywords
-                
             else:
-                tokens.append(TToken(tT, TTypes.STRING, TTypes.SVAR))
+                tokens.append(TToken("?", TTypes.UNK, TTypes.UNK))
                 pos += eT
         #Catch
         else:
