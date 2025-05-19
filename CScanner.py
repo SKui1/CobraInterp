@@ -109,7 +109,7 @@ def cScan (line):
             
             #Keywords
             else:
-                tokens.append(TToken("?", TTypes.UNK, TTypes.UNK))
+                tokens.append(TToken(line[sT:eT], TTypes.UNK, TTypes.UNK))
                 pos += eT
         #Catch
         else:

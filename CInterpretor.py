@@ -2,7 +2,7 @@ from CScanner import cScan
 from CToken import TTypes
 from CToken import TToken
 
-
+cVars = {}
 def lCheck(tokens):
     pos = 0
     while pos < len(tokens):
@@ -59,8 +59,10 @@ def lCheck(tokens):
                     tokens[pos - 1] = TToken(str(tmp), TTypes.FLOAT, TTypes.SVAR)
         elif t.mtype == TTypes.BLOGIC:
             if t.type == TTypes.IS:
-                # assign variables (=)
-                pass
+                pT = tokens[pos - 1]
+                nT = tokens[pos + 1:]
+                cVars[pT.value] = lCheck(nT)[:]
+                return cVars[pT.value]
             if t.type == TTypes.SAME:
                 # equality operator (==)
                 pT = tokens[pos - 1]
@@ -172,6 +174,8 @@ def lCheck(tokens):
                         tokens[pos - 1] = TToken("no", TTypes.NO, TTypes.BLOGIC)
                 except:
                     tokens[pos - 1] = TToken("no", TTypes.NO, TTypes.BLOGIC)
+        else:
+            pos += 1
     return tokens
 
 
