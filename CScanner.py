@@ -106,6 +106,9 @@ def cScan (line):
             elif tT == "no":
                 tokens.append(TToken("no", TTypes.NO, TTypes.BLOGIC))
                 pos = eT
+            elif tT == "hiss":
+                tokens.append(TToken("hiss", TTypes.HISS, TTypes.KWORD))
+                pos = eT
             
             #Keywords
             else:

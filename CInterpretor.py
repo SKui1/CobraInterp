@@ -174,6 +174,13 @@ def lCheck(tokens):
                         tokens[pos - 1] = TToken("no", TTypes.NO, TTypes.BLOGIC)
                 except:
                     tokens[pos - 1] = TToken("no", TTypes.NO, TTypes.BLOGIC)
+        elif t.mtype == TTypes.KWORD:
+            if t.type == TTypes.HISS:
+                nT = tokens[pos + 1:]
+                if nT[0].type == TTypes.UNK:
+                    return cVars[nT[0].value]
+                else:
+                    return  nT
         else:
             pos += 1
     return tokens
