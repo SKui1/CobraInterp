@@ -29,6 +29,8 @@ def lCheck(tokens):
                 nT = tokens[pos + 1]
                 tokens.pop(pos)
                 tokens.pop(pos)
+                if pT.type == TTypes.UNK:
+                    pT = cVars[pT.value][0]
                 if pT.type == TTypes.STRING:
                     tokens[pos - 1] = TToken(str(pT.value + nT.value), TTypes.STRING, TTypes.SVAR)
                 else:
@@ -59,12 +61,13 @@ def lCheck(tokens):
                     tokens[pos - 1] = TToken(str(tmp), TTypes.FLOAT, TTypes.SVAR)
         elif t.mtype == TTypes.BLOGIC:
             if t.type == TTypes.IS:
+                # equality operator (=)
                 pT = tokens[pos - 1]
                 nT = tokens[pos + 1:]
                 cVars[pT.value] = lCheck(nT)[:]
                 return cVars[pT.value]
             if t.type == TTypes.SAME:
-                # equality operator (==)
+                # double equality operator (==)
                 pT = tokens[pos - 1]
                 nT = tokens[pos + 1]
                 tokens.pop(pos)
@@ -177,10 +180,7 @@ def lCheck(tokens):
         elif t.mtype == TTypes.KWORD:
             if t.type == TTypes.HISS:
                 nT = tokens[pos + 1:]
-                if nT[0].type == TTypes.UNK:
-                    return cVars[nT[0].value]
-                else:
-                    return  nT
+                return  nT[0]
         else:
             pos += 1
     return tokens
@@ -191,7 +191,11 @@ def cCalc(tokens):
 
     while pos < len(tokens):
         t = tokens[pos]
-        if t.type == TTypes.LEFT_PAREN:
+        if t.type == TTypes.UNK and tokens[pos + 1].type != TTypes.IS:
+            if cVars.get(t.value) != None:
+                tokens[pos] = cVars[t.value]
+            pos += 1
+        elif t.type == TTypes.LEFT_PAREN:
             brace = []
             bS = pos
             bpos = pos + 1

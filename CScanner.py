@@ -113,7 +113,7 @@ def cScan (line):
             #Keywords
             else:
                 tokens.append(TToken(line[sT:eT], TTypes.UNK, TTypes.UNK))
-                pos += eT
+                pos = eT
         #Catch
         else:
             pos += 1
