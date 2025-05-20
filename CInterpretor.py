@@ -213,11 +213,37 @@ def cCalc(tokens):
 
     tokens = lCheck(tokens)
     
-    return tokens[0]
+    try:
+        return tokens[0]
+    except:
+        return tokens
 
 
-while True:
-    a = cScan(input(">: "))
-    print(a)
-    print("~~~~")
-    print(cCalc(a))
+if __name__ == "__main__":
+    print("Please choose from the list below;\n1 - Console\n2 - Run file\n3 - Debug")
+    inpC = input("> ")
+    while inpC != "X":
+        match inpC:
+            case "1":
+                inp = input(">: ")
+                while inp != "X":
+                    print(cCalc(cScan(inp)))
+                    inp = input(">: ")
+            case "2":
+                inp = input("Please enter a file name\n>: ")
+                try:
+                    with open(inp) as f:
+                        print(cCalc(cScan(f.readline())))
+                except:
+                    print("Incorrect file name")
+            case "3":
+                inp = input(">: ")
+                while inp != "X":
+                    a = cScan(inp)
+                    print("~~~~")
+                    print(a)
+                    print("~~~~")
+                    print(cCalc(a))
+                
+        print("Please choose from the list below;\n1 - Console\n2 - Run file\n3 - Debug")
+        inpC = input("> ")
