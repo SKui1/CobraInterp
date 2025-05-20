@@ -179,8 +179,12 @@ def lCheck(tokens):
                     tokens[pos - 1] = TToken("no", TTypes.NO, TTypes.BLOGIC)
         elif t.mtype == TTypes.KWORD:
             if t.type == TTypes.HISS:
-                nT = tokens[pos + 1:]
-                return  nT[0]
+                nT = tokens[pos + 1]
+                try:
+                    print(nT.value)
+                except:
+                    print(nT[0])
+                return  1
         else:
             pos += 1
     return tokens
@@ -191,9 +195,14 @@ def cCalc(tokens):
 
     while pos < len(tokens):
         t = tokens[pos]
-        if t.type == TTypes.UNK and tokens[pos + 1].type != TTypes.IS:
-            if cVars.get(t.value) != None:
-                tokens[pos] = cVars[t.value]
+        if t.type == TTypes.UNK:
+            try:
+                if tokens[pos + 1].type != TTypes.IS:
+                    if cVars.get(t.value) != None:
+                        tokens[pos] = cVars[t.value]
+            except:
+                if cVars.get(t.value) != None:
+                    tokens[pos] = cVars[t.value]
             pos += 1
         elif t.type == TTypes.LEFT_PAREN:
             brace = []
@@ -206,7 +215,6 @@ def cCalc(tokens):
             for i in range(0, bpos - bS):
                 tokens.pop(bS)
             tokens[pos] = brace[0]
-            print(tokens)
             break
         else:
             pos += 1
@@ -227,15 +235,20 @@ if __name__ == "__main__":
             case "1":
                 inp = input(">: ")
                 while inp != "X":
-                    print(cCalc(cScan(inp)))
+                    cCalc(cScan(inp))
                     inp = input(">: ")
             case "2":
                 inp = input("Please enter a file name\n>: ")
-                try:
-                    with open(inp) as f:
-                        print(cCalc(cScan(f.readline())))
-                except:
-                    print("Incorrect file name")
+                while inp != "X":
+                    try:
+                        print("~~~~~~~~~")
+                        with open(inp) as f:
+                            for i in f.readlines():
+                                cCalc(cScan(i))
+                        print("~~~~~~~~~")
+                    except:
+                        print("Incorrect file name")
+                    inp = input("Please enter a file name\n>: ")
             case "3":
                 inp = input(">: ")
                 while inp != "X":
@@ -244,6 +257,7 @@ if __name__ == "__main__":
                     print(a)
                     print("~~~~")
                     print(cCalc(a))
+                    inp = input(">: ")
                 
         print("Please choose from the list below;\n1 - Console\n2 - Run file\n3 - Debug")
         inpC = input("> ")
