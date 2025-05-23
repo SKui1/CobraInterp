@@ -106,11 +106,22 @@ def cScan (line):
             elif tT == "no":
                 tokens.append(TToken("no", TTypes.NO, TTypes.BLOGIC))
                 pos = eT
+            
+            #Keywords
             elif tT == "hiss":
                 tokens.append(TToken("hiss", TTypes.HISS, TTypes.KWORD))
                 pos = eT
+            elif tT == "strike":
+                tokens.append(TToken("strike", TTypes.STRIKE, TTypes.KWORD))
+                pos = eT
+            elif tT == "recoil":
+                tokens.append(TToken("recoil", TTypes.RECOIL, TTypes.KWORD))
+                pos = eT
+            elif tT == "slither":
+                tokens.append(TToken("slither", TTypes.SLITHER, TTypes.KWORD))
+                pos = eT
             
-            #Keywords
+            #Unknown
             else:
                 tokens.append(TToken(line[sT:eT], TTypes.UNK, TTypes.UNK))
                 pos = eT

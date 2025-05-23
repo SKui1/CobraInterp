@@ -205,16 +205,16 @@ def cCalc(tokens):
                     tokens[pos] = cVars[t.value]
             pos += 1
         elif t.type == TTypes.LEFT_PAREN:
-            brace = []
-            bS = pos
-            bpos = pos + 1
-            while tokens[bpos].type != TTypes.LEFT_PAREN and tokens[bpos].type != TTypes.RIGHT_PAREN:
-                brace.append(tokens[bpos])
-                bpos += 1
-            brace = lCheck(brace)
-            for i in range(0, bpos - bS):
-                tokens.pop(bS)
-            tokens[pos] = brace[0]
+            paren = []
+            pS = pos
+            ppos = pos + 1
+            while tokens[ppos].type != TTypes.LEFT_PAREN and tokens[ppos].type != TTypes.RIGHT_PAREN:
+                paren.append(tokens[ppos])
+                ppos += 1
+            paren = lCheck(paren)
+            for i in range(0, ppos - pS):
+                tokens.pop(pS)
+            tokens[pos] = paren[0]
             break
         else:
             pos += 1
