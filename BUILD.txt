@@ -1,0 +1,6 @@
+﻿Have the following 3 files in the same folder
+    -   CInterpretor.py
+    -   CScanner.py
+    -   CToken.py
+
+Run "CInterpretor.py" in python 3.12
