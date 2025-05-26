@@ -21,6 +21,10 @@ def lCheck(tokens):
                     nT = tokens[pos + 1]
                     tokens.pop(pos)
                     tokens.pop(pos)
+                    if pT.type == TTypes.UNK:
+                        pT = cVars[pT.value][0]
+                    if nT.type == TTypes.UNK:
+                        nT = cVars[nT.value][0]
                     tmp = float(pT.value) - float(nT.value)
                     if tmp.is_integer():
                         tokens[pos - 1] = TToken(str(tmp), TTypes.INT, TTypes.SVAR)
@@ -33,6 +37,8 @@ def lCheck(tokens):
                 tokens.pop(pos)
                 if pT.type == TTypes.UNK:
                     pT = cVars[pT.value][0]
+                if nT.type == TTypes.UNK:
+                    nT = cVars[nT.value][0]
                 if pT.type == TTypes.STRING:
                     tokens[pos - 1] = TToken(str(pT.value + nT.value), TTypes.STRING, TTypes.SVAR)
                 else:
@@ -50,6 +56,10 @@ def lCheck(tokens):
                 nT = tokens[pos + 1]
                 tokens.pop(pos)
                 tokens.pop(pos)
+                if pT.type == TTypes.UNK:
+                    pT = cVars[pT.value][0]
+                if nT.type == TTypes.UNK:
+                    nT = cVars[nT.value][0]
                 tmp = float(pT.value) / float(nT.value)
                 if tmp.is_integer():
                     tokens[pos - 1] = TToken(str(tmp), TTypes.INT, TTypes.SVAR)
@@ -60,6 +70,10 @@ def lCheck(tokens):
                 nT = tokens[pos + 1]
                 tokens.pop(pos)
                 tokens.pop(pos)
+                if pT.type == TTypes.UNK:
+                    pT = cVars[pT.value][0]
+                if nT.type == TTypes.UNK:
+                    nT = cVars[nT.value][0]
                 tmp = float(pT.value) * float(nT.value)
                 if tmp.is_integer():
                     tokens[pos - 1] = TToken(str(tmp), TTypes.INT, TTypes.SVAR)

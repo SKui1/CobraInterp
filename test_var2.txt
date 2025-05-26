@@ -1,0 +1,17 @@
+﻿hiss "num1 is 50"
+num1 is 50
+
+hiss "num2 is 10"
+num2 is 10
+
+hiss "num1 - num2 ?"
+hiss (num1 - num2)
+
+hiss "num1 + num2 ?"
+hiss (num1 + num2)
+
+hiss "num1 / num2 ?"
+hiss (num1 / num2)
+
+hiss "num1 * num2 ?"
+hiss (num1 * num2)
