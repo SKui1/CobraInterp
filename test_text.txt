@@ -1,0 +1,8 @@
+﻿hiss ("hello + SPACE + world ?")
+hiss ("hello" + " " + "world")
+
+hiss ("foo + bar same foobar ?")
+hiss (("foo" + "bar") same "foobar")
+
+hiss ("10 corgis diff 10 + corgis ?")
+hiss ("10 corgis" diff ("10" + "corgis"))

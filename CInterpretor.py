@@ -36,11 +36,15 @@ def lCheck(tokens):
                 if pT.type == TTypes.STRING:
                     tokens[pos - 1] = TToken(str(pT.value + nT.value), TTypes.STRING, TTypes.SVAR)
                 else:
-                    tmp = float(pT.value) + float(nT.value)
-                    if tmp.is_integer():
-                        tokens[pos - 1] = TToken(str(tmp), TTypes.INT, TTypes.SVAR)
-                    else:
-                        tokens[pos - 1] = TToken(str(tmp), TTypes.FLOAT, TTypes.SVAR)
+                    try:
+                        tmp = float(pT.value) + float(nT.value)
+                        if tmp.is_integer():
+                            tokens[pos - 1] = TToken(str(tmp), TTypes.INT, TTypes.SVAR)
+                        else:
+                            tokens[pos - 1] = TToken(str(tmp), TTypes.FLOAT, TTypes.SVAR)
+                    except ValueError:
+                        print("Error | Cannot add String to Number")
+                        tokens[pos - 1] = TToken("0", TTypes.FLOAT, TTypes.SVAR)
             if t.type == TTypes.SLASH:
                 pT = tokens[pos - 1]
                 nT = tokens[pos + 1]
@@ -80,6 +84,7 @@ def lCheck(tokens):
                     else:
                         tokens[pos - 1] = TToken("no", TTypes.NO, TTypes.BLOGIC)
                 except TypeError:
+                    print("Error | Invalid Type")
                     tokens[pos - 1] = TToken("no", TTypes.NO, TTypes.BLOGIC)
             if t.type == TTypes.NOPE:
                 # not operator (!)
@@ -91,6 +96,7 @@ def lCheck(tokens):
                     else:
                         tokens[pos] = TToken("no", TTypes.NO, TTypes.BLOGIC)
                 except TypeError:
+                    print("Error | Invalid Type")
                     tokens[pos] = TToken("no", TTypes.NO, TTypes.BLOGIC)
             if t.type == TTypes.DIFF:
                 # not equal operator (!=)
@@ -104,6 +110,7 @@ def lCheck(tokens):
                     else:
                         tokens[pos - 1] = TToken("no", TTypes.NO, TTypes.BLOGIC)
                 except TypeError:
+                    print("Error | Invalid Type")
                     tokens[pos - 1] = TToken("no", TTypes.NO, TTypes.BLOGIC)
             if t.type == TTypes.DANGER:
                 # greater than (>)
@@ -113,21 +120,29 @@ def lCheck(tokens):
                 tokens.pop(pos)
                 if nT.type != TTypes.IS:
                     try:
-                        if pT.value > nT.value:
+                        if float(pT.value) > float(nT.value):
                             tokens[pos - 1] = TToken("yes", TTypes.YES, TTypes.BLOGIC)
                         else:
                             tokens[pos - 1] = TToken("no", TTypes.NO, TTypes.BLOGIC)
-                    except:
+                    except ValueError:
+                        print("Error | Cannot Compare Strings")
+                        tokens[pos - 1] = TToken("no", TTypes.NO, TTypes.BLOGIC)
+                    except TypeError:
+                        print("Error | Invalid Type")
                         tokens[pos - 1] = TToken("no", TTypes.NO, TTypes.BLOGIC)
                 else:
                     nT = tokens[pos]
                     tokens.pos(pos)
                     try:
-                        if pT.value >= nT.value:
+                        if float(pT.value) >= float(nT.value):
                             tokens[pos - 1] = TToken("yes", TTypes.YES, TTypes.BLOGIC)
                         else:
                             tokens[pos - 1] = TToken("no", TTypes.NO, TTypes.BLOGIC)
+                    except ValueError:
+                        print("Error | Cannot Compare Strings")
+                        tokens[pos - 1] = TToken("no", TTypes.NO, TTypes.BLOGIC)
                     except TypeError:
+                        print("Error | Invalid Type")
                         tokens[pos - 1] = TToken("no", TTypes.NO, TTypes.BLOGIC)
             if t.type == TTypes.SAFE:
                 # less than (<)
@@ -137,21 +152,31 @@ def lCheck(tokens):
                 tokens.pop(pos)
                 if nT.type != TTypes.IS:
                     try:
-                        if pT.value < nT.value:
+                        a = float(pT.value)
+                        b = float(nT.value)
+                        if a < b:
                             tokens[pos - 1] = TToken("yes", TTypes.YES, TTypes.BLOGIC)
                         else:
                             tokens[pos - 1] = TToken("no", TTypes.NO, TTypes.BLOGIC)
+                    except ValueError:
+                        print("Error | Cannot Compare Strings")
+                        tokens[pos - 1] = TToken("no", TTypes.NO, TTypes.BLOGIC)
                     except TypeError:
+                        print("Error | Cannot compare Type")
                         tokens[pos - 1] = TToken("no", TTypes.NO, TTypes.BLOGIC)
                 else:
                     nT = tokens[pos]
                     tokens.pos(pos)
                     try:
-                        if pT.value <= nT.value:
+                        if float(pT.value) <= float(nT.value):
                             tokens[pos - 1] = TToken("yes", TTypes.YES, TTypes.BLOGIC)
                         else:
                             tokens[pos - 1] = TToken("no", TTypes.NO, TTypes.BLOGIC)
+                    except ValueError:
+                        print("Error | Cannot Compare Strings")
+                        tokens[pos - 1] = TToken("no", TTypes.NO, TTypes.BLOGIC)
                     except TypeError:
+                        print("Error | Cannot compare Type")
                         tokens[pos - 1] = TToken("no", TTypes.NO, TTypes.BLOGIC)
             if t.type == TTypes.AND:
                 # and operator
@@ -165,6 +190,7 @@ def lCheck(tokens):
                     else:
                         tokens[pos - 1] = TToken("no", TTypes.NO, TTypes.BLOGIC)
                 except TypeError:
+                    print("Error | Invalid Type")
                     tokens[pos - 1] = TToken("no", TTypes.NO, TTypes.BLOGIC)
             if t.type == TTypes.HASH:
                 # or operator
@@ -178,6 +204,7 @@ def lCheck(tokens):
                     else:
                         tokens[pos - 1] = TToken("no", TTypes.NO, TTypes.BLOGIC)
                 except TypeError:
+                    print("Error | Invalid Type")
                     tokens[pos - 1] = TToken("no", TTypes.NO, TTypes.BLOGIC)
         elif t.mtype == TTypes.KWORD:
             if t.type == TTypes.HISS:
@@ -252,7 +279,7 @@ if __name__ == "__main__":
                 while inp != "X":
                     try:
                         print("~~~~~~~~~")
-                        with open(inp) as f:
+                        with open(inp, encoding='utf-8') as f:
                             for i in f.readlines():
                                 cCalc(cScan(i))
                         print("~~~~~~~~~")

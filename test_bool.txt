@@ -1,0 +1,14 @@
+﻿hiss ("yes same no ?")
+hiss (yes same no) 
+
+hiss ("yes diff no  ?")
+hiss (yes diff no) 
+
+hiss ("5 safe 10 ?")
+hiss (5 safe 10)
+
+hiss ("5 - 3 danger 3 * 2 same yes ?")
+hiss (((5 - 3) danger (3 * 2)) same yes)
+
+hiss ("( 1 safe 2 ) # no ?")
+hiss (( 1 safe 2 ) # no)

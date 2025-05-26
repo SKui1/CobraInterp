@@ -1,4 +1,39 @@
-﻿name is "frank"
+﻿hiss "name is frank"
+name is "frank"
+
+hiss "hiss name ?"
 hiss name
+
+hiss "name is name + SPACE + smith"
 name is (name + " " + "smith")
+
+hiss "hiss name ?"
 hiss name
+
+hiss "-----------"
+
+hiss "number is 5"
+number is 5
+
+hiss "hiss number ?"
+hiss number
+
+hiss "number is number + 10"
+number is (number + 10)
+
+hiss "hiss number ?"
+hiss number
+
+hiss "-----------"
+
+hiss "error is 5"
+error is 5
+
+hiss "hiss error ?"
+hiss error
+
+hiss "error is error + bob"
+error is (error + "bob")
+
+hiss "hiss error ?"
+hiss error
