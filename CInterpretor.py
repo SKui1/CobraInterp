@@ -1,3 +1,5 @@
+from pycparser.ply.yacc import token
+
 from CScanner import cScan
 from CToken import TTypes
 from CToken import TToken
@@ -77,7 +79,7 @@ def lCheck(tokens):
                         tokens[pos - 1] = TToken("yes", TTypes.YES, TTypes.BLOGIC)
                     else:
                         tokens[pos - 1] = TToken("no", TTypes.NO, TTypes.BLOGIC)
-                except:
+                except TypeError:
                     tokens[pos - 1] = TToken("no", TTypes.NO, TTypes.BLOGIC)
             if t.type == TTypes.NOPE:
                 # not operator (!)
@@ -88,7 +90,7 @@ def lCheck(tokens):
                         tokens[pos] = TToken("yes", TTypes.YES, TTypes.BLOGIC)
                     else:
                         tokens[pos] = TToken("no", TTypes.NO, TTypes.BLOGIC)
-                except:
+                except TypeError:
                     tokens[pos] = TToken("no", TTypes.NO, TTypes.BLOGIC)
             if t.type == TTypes.DIFF:
                 # not equal operator (!=)
@@ -101,7 +103,7 @@ def lCheck(tokens):
                         tokens[pos - 1] = TToken("yes", TTypes.YES, TTypes.BLOGIC)
                     else:
                         tokens[pos - 1] = TToken("no", TTypes.NO, TTypes.BLOGIC)
-                except:
+                except TypeError:
                     tokens[pos - 1] = TToken("no", TTypes.NO, TTypes.BLOGIC)
             if t.type == TTypes.DANGER:
                 # greater than (>)
@@ -125,7 +127,7 @@ def lCheck(tokens):
                             tokens[pos - 1] = TToken("yes", TTypes.YES, TTypes.BLOGIC)
                         else:
                             tokens[pos - 1] = TToken("no", TTypes.NO, TTypes.BLOGIC)
-                    except:
+                    except TypeError:
                         tokens[pos - 1] = TToken("no", TTypes.NO, TTypes.BLOGIC)
             if t.type == TTypes.SAFE:
                 # less than (<)
@@ -139,7 +141,7 @@ def lCheck(tokens):
                             tokens[pos - 1] = TToken("yes", TTypes.YES, TTypes.BLOGIC)
                         else:
                             tokens[pos - 1] = TToken("no", TTypes.NO, TTypes.BLOGIC)
-                    except:
+                    except TypeError:
                         tokens[pos - 1] = TToken("no", TTypes.NO, TTypes.BLOGIC)
                 else:
                     nT = tokens[pos]
@@ -149,7 +151,7 @@ def lCheck(tokens):
                             tokens[pos - 1] = TToken("yes", TTypes.YES, TTypes.BLOGIC)
                         else:
                             tokens[pos - 1] = TToken("no", TTypes.NO, TTypes.BLOGIC)
-                    except:
+                    except TypeError:
                         tokens[pos - 1] = TToken("no", TTypes.NO, TTypes.BLOGIC)
             if t.type == TTypes.AND:
                 # and operator
@@ -162,7 +164,7 @@ def lCheck(tokens):
                         tokens[pos - 1] = TToken("yes", TTypes.YES, TTypes.BLOGIC)
                     else:
                         tokens[pos - 1] = TToken("no", TTypes.NO, TTypes.BLOGIC)
-                except:
+                except TypeError:
                     tokens[pos - 1] = TToken("no", TTypes.NO, TTypes.BLOGIC)
             if t.type == TTypes.HASH:
                 # or operator
@@ -175,20 +177,37 @@ def lCheck(tokens):
                         tokens[pos - 1] = TToken("yes", TTypes.YES, TTypes.BLOGIC)
                     else:
                         tokens[pos - 1] = TToken("no", TTypes.NO, TTypes.BLOGIC)
-                except:
+                except TypeError:
                     tokens[pos - 1] = TToken("no", TTypes.NO, TTypes.BLOGIC)
         elif t.mtype == TTypes.KWORD:
             if t.type == TTypes.HISS:
                 nT = tokens[pos + 1]
                 try:
                     print(nT.value)
-                except:
+                except AttributeError:
                     print(nT[0])
                 return  1
         else:
             pos += 1
     return tokens
 
+def pCalc(tokens, pos):
+    paren = []
+    pS = pos
+    ppos = pos + 1
+    while tokens[ppos].type != TTypes.RIGHT_PAREN:
+        if tokens[ppos].type == TTypes.LEFT_PAREN:
+            #call its self
+            pCalc(tokens, ppos)
+        paren.append(tokens[ppos])
+        ppos += 1
+    paren = lCheck(paren)
+    for i in range(0, ppos - pS):
+        tokens.pop(pS)
+    try:
+        tokens[pos] = paren[0]
+    except IndexError:
+        tokens[pos] = paren
 
 def cCalc(tokens):
     pos = 0
@@ -205,20 +224,12 @@ def cCalc(tokens):
                     tokens[pos] = cVars[t.value]
             pos += 1
         elif t.type == TTypes.LEFT_PAREN:
-            paren = []
-            pS = pos
-            ppos = pos + 1
-            while tokens[ppos].type != TTypes.LEFT_PAREN and tokens[ppos].type != TTypes.RIGHT_PAREN:
-                paren.append(tokens[ppos])
-                ppos += 1
-            paren = lCheck(paren)
-            for i in range(0, ppos - pS):
-                tokens.pop(pS)
-            tokens[pos] = paren[0]
+            pCalc(tokens, pos)
             break
         else:
             pos += 1
 
+    print(tokens)
     tokens = lCheck(tokens)
     
     try:
@@ -246,8 +257,10 @@ if __name__ == "__main__":
                             for i in f.readlines():
                                 cCalc(cScan(i))
                         print("~~~~~~~~~")
-                    except:
+                    except FileNotFoundError:
                         print("Incorrect file name")
+                    except Exception as e:
+                        print(f"Error | {e}")
                     inp = input("Please enter a file name\n>: ")
             case "3":
                 inp = input(">: ")
