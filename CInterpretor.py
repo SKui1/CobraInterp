@@ -228,8 +228,7 @@ def cCalc(tokens):
             break
         else:
             pos += 1
-
-    print(tokens)
+ 
     tokens = lCheck(tokens)
     
     try:
