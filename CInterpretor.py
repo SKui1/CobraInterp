@@ -1,5 +1,3 @@
-from pycparser.ply.yacc import token
-
 from CScanner import cScan
 from CToken import TTypes
 from CToken import TToken
